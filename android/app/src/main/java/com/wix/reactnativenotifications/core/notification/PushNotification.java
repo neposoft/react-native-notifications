@@ -25,6 +25,10 @@ import static com.wix.reactnativenotifications.Defs.NOTIFICATION_OPENED_EVENT_NA
 import static com.wix.reactnativenotifications.Defs.NOTIFICATION_RECEIVED_EVENT_NAME;
 import static com.wix.reactnativenotifications.Defs.NOTIFICATION_RECEIVED_FOREGROUND_EVENT_NAME;
 
+import android.content.ContentResolver;
+import android.media.AudioAttributes;
+import android.net.Uri;
+
 public class PushNotification implements IPushNotification {
 
     final protected Context mContext;
@@ -160,6 +164,14 @@ public class PushNotification implements IPushNotification {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
                     CHANNEL_NAME,
                     NotificationManager.IMPORTANCE_DEFAULT);
+
+            Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + mContext.getPackageName() + "/raw/notification");
+            AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                    .build();
+            channel.setSound(getSoundUri(), audioAttributes);
+
             final NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.createNotificationChannel(channel);
             notification.setChannelId(CHANNEL_ID);
