@@ -165,12 +165,12 @@ public class PushNotification implements IPushNotification {
                     CHANNEL_NAME,
                     NotificationManager.IMPORTANCE_DEFAULT);
 
-            Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + mContext.getPackageName() + "/raw/notification");
+           Uri soundUri =  Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + mContext.getPackageName() + "/raw/notification");
             AudioAttributes audioAttributes = new AudioAttributes.Builder()
                     .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                     .setUsage(AudioAttributes.USAGE_NOTIFICATION)
                     .build();
-            channel.setSound(getSoundUri(), audioAttributes);
+            channel.setSound(soundUri, audioAttributes);
 
             final NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.createNotificationChannel(channel);
