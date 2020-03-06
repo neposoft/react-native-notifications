@@ -128,7 +128,7 @@ public class RNNotificationsModule extends ReactContextBaseJavaModule implements
             final Context appContext = getReactApplicationContext().getApplicationContext();
             final Intent tokenFetchIntent = new Intent(appContext, FcmInstanceIdRefreshHandlerService.class);
             tokenFetchIntent.putExtra(extraFlag, true);
-            appContext.startService(tokenFetchIntent);
+            appContext.startForegroundService(tokenFetchIntent);
         } catch (Exception ex) {
             // todo do something with this?
         }
