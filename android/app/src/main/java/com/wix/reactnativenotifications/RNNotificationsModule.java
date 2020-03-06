@@ -117,15 +117,21 @@ public class RNNotificationsModule extends ReactContextBaseJavaModule implements
         promise.resolve(new Boolean(hasPermission));
     }
 
-    @ReactMethod void removeAllDeliveredNotifications() {
+    @ReactMethod
+    void removeAllDeliveredNotifications() {
         IPushNotificationsDrawer notificationsDrawer = PushNotificationsDrawer.get(getReactApplicationContext().getApplicationContext());
         notificationsDrawer.onAllNotificationsClearRequest();
     }
 
     protected void startFcmIntentService(String extraFlag) {
-        final Context appContext = getReactApplicationContext().getApplicationContext();
-        final Intent tokenFetchIntent = new Intent(appContext, FcmInstanceIdRefreshHandlerService.class);
-        tokenFetchIntent.putExtra(extraFlag, true);
-        appContext.startService(tokenFetchIntent);
+        try {
+            final Context appContext = getReactApplicationContext().getApplicationContext();
+            final Intent tokenFetchIntent = new Intent(appContext, FcmInstanceIdRefreshHandlerService.class);
+            tokenFetchIntent.putExtra(extraFlag, true);
+            appContext.startService(tokenFetchIntent);
+        } catch (Exception ex) {
+            // todo do something with this?
+        }
+
     }
 }
